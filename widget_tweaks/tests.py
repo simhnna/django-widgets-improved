@@ -160,7 +160,6 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
     # XXX can be dropped once 1.8 is not supported
     @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
