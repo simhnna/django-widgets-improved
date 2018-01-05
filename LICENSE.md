@@ -1,3 +1,4 @@
+Copyright (c) 2017-2018 Simon Hanna
 Copyright (c) 2011-2015 Mikhail Korobov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

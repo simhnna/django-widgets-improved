@@ -1,3 +1,2 @@
 include *.txt
-include *.rst
-include LICENSE
+include *.md

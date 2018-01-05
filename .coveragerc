@@ -4,3 +4,5 @@ include =
     widget_tweaks/*
 omit =
     widget_tweaks/tests.py
+[html]
+directory = coverage

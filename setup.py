@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-version = '1.4.1'
+version = '1.5.0'
 
 setup(
     name='django-widget-tweaks',
     version=version,
-    author='Mikhail Korobov',
-    author_email='kmike84@gmail.com',
-    url='https://github.com/kmike/django-widget-tweaks',
+    author='Simon Hanna',
+    author_email='simhnna@gmail.com',
+    url='https://github.com/simhnna/django-widgets-improved',
     description='Tweak the form field rendering in templates, not in python-level form definitions.',
-    long_description=open('README.rst').read() + "\n\n" + open('CHANGES.rst').read(),
+    long_description=open('README.md').read() + "\n\n" + open('CHANGELOG.md').read(),
     license='MIT license',
-    requires=['django (>= 1.2)'],
+    requires=['django (>= 1.8)'],
     packages=['widget_tweaks', 'widget_tweaks.templatetags'],
 
     classifiers=[
@@ -30,3 +30,4 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
 )
+
