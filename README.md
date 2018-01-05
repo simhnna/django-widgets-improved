@@ -8,10 +8,9 @@ form definitions. Altering CSS classes and HTML attributes is supported.
 That should be enough for designers to customize field presentation (using
 CSS and unobtrusive javascript) without touching python code.
 
-License is MIT.
 
-
-This project is a fork of the unmaintained [django-widget-tweaks](https://github.com/jazzband/django-widget-tweaks) repository
+This project is a fork of the unmaintained [django-widget-tweaks](https://github.com/jazzband/django-widget-tweaks) repository.
+It is a drop-in replacement. Just unintall django-widget-tweaks and install this instead.
 
 ## Installation
 
@@ -222,7 +221,7 @@ If you've found a bug, implemented a feature or have a suggestion,
 do not hesitate to contact me, fire an issue or send a pull request.
 
 * Source code: https://github.com/simhnna/django-widgets-improved/
-* Bug tracker: https://github.com/jazzband/django-widgets-improved/issues
+* Bug tracker: https://github.com/simhnna/django-widgets-improved/issues
 
 ## Testing
 
