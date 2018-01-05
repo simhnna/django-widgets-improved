@@ -1,5 +1,7 @@
 # django-widgets-improved
 
+[![Build Status](https://travis-ci.org/simhnna/django-widgets-improved.svg?branch=master)](https://travis-ci.org/simhnna/django-widgets-improved)
+
 Tweak the form field rendering in templates, not in python-level
 form definitions. Altering CSS classes and HTML attributes is supported.
 
