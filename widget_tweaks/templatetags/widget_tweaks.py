@@ -13,12 +13,29 @@ def silence_without_field(fn):
     return wrapped
 
 
+SINGLE_ATTRIBUTE_RE = re.compile(r"""
+    (?P<attr>
+        [\w_-]+(\\:[\w_-]+)?
+    )
+    (
+    :
+    (?P<value>
+        [^"']*
+    )
+    )?
+""", re.VERBOSE | re.UNICODE)
+
+
 def _process_field_attributes(field, attr, process):
 
     # split attribute name and value from 'attr:value' string
-    params = attr.split(':', 1)
-    attribute = params[0]
-    value = params[1] if len(params) == 2 else ''
+    # it can also be 'attr\:continue_attr:value'
+    match = SINGLE_ATTRIBUTE_RE.match(attr)
+    if not match:
+        raise TemplateSyntaxError(error_msg + ": %s" % attr)
+    dct = match.groupdict()
+    attribute = dct['attr'].replace('\:', ':')
+    value = dct['value'] or ''
 
     field = copy(field)
 
@@ -115,7 +132,7 @@ def widget_type(field):
 
 ATTRIBUTE_RE = re.compile(r"""
     (?P<attr>
-        [\w_-]+
+        [\w_-]+(\\:[\w_-]+)?
     )
     (?P<sign>
         \+?=

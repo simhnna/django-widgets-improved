@@ -28,7 +28,8 @@ class MyForm(Form):
     simple = CharField()
     with_attrs = CharField(widget=TextInput(attrs={
                     'foo': 'baz',
-                    'egg': 'spam'
+                    'egg': 'spam',
+                    'foo:bar': 'meh'
                  }))
     with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
@@ -117,6 +118,31 @@ class SimpleAttrTest(TestCase):
     def test_set_data(self):
         res = render_field('simple', 'set_data', 'key:value')
         assertIn('data-key="value"', res)
+
+
+class ColonInAttrTest(TestCase):
+    def test_colon_in_attr(self):
+        res = render_field('simple', 'attr', 'foo\:bar:meh')
+        assertIn('type="text"', res)
+        assertIn('name="simple"', res)
+        assertIn('id="id_simple"', res)
+        assertIn('foo:bar="meh"', res)
+
+    def test_colon_in_attr_without_value(self):
+        res = render_field('simple', 'attr', 'foo\:bar')
+        assertIn(' foo:bar ', res)
+
+    def test_no_value(self):
+        res = render_form('{{ form.simple|attr:"foobar"}}')
+        assertIn(' foobar ', res)
+
+    def test_colon_in_render_field_attr(self):
+        res = render_form('{% render_field form.simple name="n_1" foo\:bar="meh" class="c_1" %}')
+        assertIn('foo:bar="meh"', res)
+
+    def test_addition_in_render_field_with_colon(self):
+        res = render_form('{% render_field form.with_attrs foo\:bar+="another" %}')
+        assertIn('foo:bar="meh another"', res)
 
 
 class ErrorsTest(TestCase):
