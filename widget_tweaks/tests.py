@@ -130,11 +130,8 @@ class ColonInAttrTest(TestCase):
 
     def test_colon_in_attr_without_value(self):
         res = render_field('simple', 'attr', 'foo\:bar')
-        assertIn(' foo:bar ', res)
+        assertIn('foo:bar=""', res)
 
-    def test_no_value(self):
-        res = render_form('{{ form.simple|attr:"foobar"}}')
-        assertIn(' foobar ', res)
 
     def test_colon_in_render_field_attr(self):
         res = render_form('{% render_field form.simple name="n_1" foo\:bar="meh" class="c_1" %}')
