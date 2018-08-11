@@ -4,7 +4,7 @@ from setuptools import setup
 version = '1.5.0'
 
 setup(
-    name='django-widget-tweaks',
+    name='django-widgets-improved',
     version=version,
     author='Simon Hanna',
     author_email='simhnna@gmail.com',
