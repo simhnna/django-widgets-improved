@@ -1,7 +1,7 @@
 import re
 import types
 from copy import copy
-from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.template import Library, Node, TemplateSyntaxError
 register = Library()
 
 
@@ -127,6 +127,7 @@ ATTRIBUTE_RE = re.compile(r"""
     )
 """, re.VERBOSE | re.UNICODE)
 
+
 @register.tag
 def render_field(parser, token):
     """
@@ -137,10 +138,11 @@ def render_field(parser, token):
     attribute=value or attribute="a value" for assignment and attribute+=value
     or attribute+="value" for appending.
     """
-    error_msg = '%r tag requires a form field followed by a list of attributes and values in the form attr="value"' % token.split_contents()[0]
+    bits = token.split_contents()
+    tag_name = bits[0]
+    error_msg = '%r tag requires a form field followed by a list' \
+                ' of attributes and values in the form attr="value"' % tag_name
     try:
-        bits = token.split_contents()
-        tag_name = bits[0]
         form_field = bits[1]
         attr_list = bits[2:]
     except ValueError:
@@ -174,14 +176,14 @@ class FieldAttributeNode(Node):
         bounded_field = self.field.resolve(context)
         field = getattr(bounded_field, 'field', None)
         if (getattr(bounded_field, 'errors', None) and
-            'WIDGET_ERROR_CLASS' in context):
+           'WIDGET_ERROR_CLASS' in context):
             bounded_field = append_attr(bounded_field, 'class:%s' %
                                         context['WIDGET_ERROR_CLASS'])
         if field and field.required and 'WIDGET_REQUIRED_CLASS' in context:
             bounded_field = append_attr(bounded_field, 'class:%s' %
                                         context['WIDGET_REQUIRED_CLASS'])
         for k, v in self.set_attrs:
-            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+            bounded_field = set_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
         for k, v in self.append_attrs:
-            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+            bounded_field = append_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
         return str(bounded_field)

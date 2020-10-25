@@ -19,6 +19,7 @@ except ImportError:
 #       Testing helpers
 # ==============================
 
+
 class MyForm(Form):
     """
     Test form. If you want to test rendering of a field,
@@ -30,7 +31,7 @@ class MyForm(Form):
                     'foo': 'baz',
                     'egg': 'spam'
                  }))
-    with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
+    with_cls = CharField(widget=TextInput(attrs={'class': 'class0'}))
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
 
 
@@ -314,12 +315,20 @@ class RenderFieldTagFieldReuseTest(TestCase):
         self.assertEqual(res.count("bar"), 1)
 
     def test_field_double_rendering_simple_css(self):
-        res = render_form('{% render_field form.simple %}{% render_field form.simple class+="bar" %}{% render_field form.simple class+="baz" %}')
+        res = render_form('''
+            {% render_field form.simple %}
+            {% render_field form.simple class+="bar" %}
+            {% render_field form.simple class+="baz" %}
+            ''')
         self.assertEqual(res.count("baz"), 1)
         self.assertEqual(res.count("bar"), 1)
 
     def test_field_double_rendering_attrs(self):
-        res = render_form('{% render_field form.with_cls %}{% render_field form.with_cls class+="bar" %}{% render_field form.with_cls %}')
+        res = render_form('''
+            {% render_field form.with_cls %}
+            {% render_field form.with_cls class+="bar" %}
+            {% render_field form.with_cls %}
+            ''')
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
 
@@ -375,5 +384,9 @@ class RenderFieldTagUseTemplateVariableTest(TestCase):
 
 class RenderFieldFilter_field_type_widget_type_Test(TestCase):
     def test_field_type_widget_type_rendering_simple(self):
-        res = render_form('<div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">{{ form.simple }}</div>')
+        res = render_form('''
+            <div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">
+                {{ form.simple }}
+            </div>
+            ''')
         assertIn('class="charfield textinput simple"', res)
